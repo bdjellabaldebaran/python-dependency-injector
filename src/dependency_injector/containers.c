@@ -38411,9 +38411,9 @@ bad:
             }
         }
         {
-#if CYTHON_COMPILING_IN_PYPY && !defined(_PyLong_AsByteArray)
+#if CYTHON_COMPILING_IN_PYPY && !defined(PyLong_AsNativeBytes)
             PyErr_SetString(PyExc_RuntimeError,
-                            "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
+                            "PyLong_AsNativeBytes() not available in PyPy, cannot convert large numbers");
 #else
             int val;
             PyObject *v = __Pyx_PyNumber_IntOrLong(x);
@@ -38427,9 +38427,9 @@ bad:
             if (likely(v)) {
                 int one = 1; int is_little = (int)*(unsigned char *)&one;
                 unsigned char *bytes = (unsigned char *)&val;
-                int ret = _PyLong_AsByteArray((PyLongObject *)v,
+                int ret = PyLong_AsNativeBytes((PyLongObject *)v,
                                               bytes, sizeof(val),
-                                              is_little, !is_unsigned);
+                                              is_little + 4*is_unsigned);
                 Py_DECREF(v);
                 if (likely(!ret))
                     return val;
@@ -38607,9 +38607,9 @@ raise_neg_overflow:
             }
         }
         {
-#if CYTHON_COMPILING_IN_PYPY && !defined(_PyLong_AsByteArray)
+#if CYTHON_COMPILING_IN_PYPY && !defined(PyLong_AsNativeBytes)
             PyErr_SetString(PyExc_RuntimeError,
-                            "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
+                            "PyLong_AsNativeBytes() not available in PyPy, cannot convert large numbers");
 #else
             long val;
             PyObject *v = __Pyx_PyNumber_IntOrLong(x);
@@ -38623,9 +38623,9 @@ raise_neg_overflow:
             if (likely(v)) {
                 int one = 1; int is_little = (int)*(unsigned char *)&one;
                 unsigned char *bytes = (unsigned char *)&val;
-                int ret = _PyLong_AsByteArray((PyLongObject *)v,
+                int ret = PyLong_AsNativeBytes((PyLongObject *)v,
                                               bytes, sizeof(val),
-                                              is_little, !is_unsigned);
+                                              is_little + 4*is_unsigned);
                 Py_DECREF(v);
                 if (likely(!ret))
                     return val;
